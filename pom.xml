@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.qiandao</groupId>
+    <artifactId>messaging</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>messaging</name>
+    <description>即时通讯聚合服务</description>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>messaging-gateway</module>
+        <module>messaging-common</module>
+        <module>messaging-core</module>
+        <module>messaging-forum</module>
+        <module>messaging-auth-third</module>
+        <module>messaging-admin</module>
+    </modules>
+
+</project>

@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "swagger.enabled",
+      "type": "java.lang.String",
+      "description": "Description for swagger.enabled."
+    },
+    {
+      "name": "swagger.path",
+      "type": "java.lang.String",
+      "description": "Description for swagger.path."
+    },
+    {
+      "name": "colony.id",
+      "type": "java.lang.String",
+      "description": "Description for colony.id."
+    }
+  ] }

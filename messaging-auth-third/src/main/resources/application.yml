@@ -1,0 +1,85 @@
+sa-token:
+  # token 名称 (同时也是cookie名称)
+  token-name: satoken
+  # token 有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token 临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: true
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml  #扫描的xml路径
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启日志
+    map-underscore-to-camel-case: false  #自动驼峰映射
+  global-config:
+    db-config:
+      # id-type: auto  #全体表主键自增
+      logic-delete-field: deleted      # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1         # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0     # 逻辑未删除值(默认为 0)
+
+spring:
+  redis:
+    host: xxx
+    port: xxx
+    password: xxx
+  cache:
+    #指定缓存类型为redis
+    type: redis
+    redis:
+      # 指定redis中的过期时间为1h
+      time-to-live: 3600000
+      #如果指定了前缀就用我们指定的前缀，如果没有就默认使用缓存的名字作为前缀
+      key-prefix: "CACHE:"
+      #允许使用前缀
+      use-key-prefix: true
+      #是否缓存空值，防止缓存穿透
+      cache-null-values: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher # 解决springBoot与Swagger3版本冲突
+  mail:
+    username: xxx
+    password: xxx
+    host: smtp.sina.com
+
+aes:
+  secretKey: "c969f450259bd0bc2bc69c2b109614e6" #aes加密密文🔐,请勿改动
+
+tencent-sms:
+  secretId: xxx
+  secretKey: xxx
+  sdkAppId: xxx
+  signName: xxx
+  register_templateId: xxx
+  retrieve_templateId: xxx
+  login_templateId: xxx
+
+weibo:
+  client_id: xxx
+  client_secret: xxx
+  grant_type: authorization_code
+  redirect_uri: xxx
+
+gitee:
+  client_id: xxx
+  client_secret: xxx
+  grant_type: xxx
+  redirect_uri: xxx
+
+github:
+  client_id: xxx
+  client_secret: xxx
+  redirect_uri: xxx
+
+
+
+

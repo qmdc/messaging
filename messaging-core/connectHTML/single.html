@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>聊天</title>
+</head>
+
+<body>
+    当前登录用户：<input id="name" /><button id="connBtn" onclick="connection()">建立连接</button><br />
+    接收人：<input id="toName" /><br />
+    <input id="sendContent" /><button onclick="sendMessage()">发送</button><br />
+    <div id="messageView"></div>
+</body>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script>
+    var webSocket;
+    function connection() {
+        let name = $("#name").val();
+        // let toname = $("#toName").val();
+        // let toname = 100
+        if (name) {
+            if ("WebSocket" in window) {
+                webSocket = new WebSocket(`ws://messaging.cn/api/core/websocket/${name}`);
+                //连通之后的回调事件
+                webSocket.onopen = function () {
+                    console.log("已经连通了websocket");
+                    $("#name").attr('disabled', true);
+                    $("#connBtn").attr('disabled', true);
+                };
+
+                //接收后台服务端的消息
+                webSocket.onmessage = function (evt) {
+                    var s = evt.data.replace(/\//g, '')
+                    console.log("数据已接收:" + s);
+                    const messageBody = JSON.parse(s);
+                    viewMessage(messageBody);
+                };
+
+                //连接关闭的回调事件
+                webSocket.onclose = function () {
+                    console.log("连接已关闭...");
+                    let message = new Object();
+                    message.fromName = "system";
+                    message.content = "连接已关闭";
+                    viewMessage(message);
+                };
+            } else {
+                // 浏览器不支持 WebSocket
+                alert("您的浏览器不支持 WebSocket!");
+            }
+        } else {
+            alert("请输入你的名字")
+        }
+    }
+    function sendMessage() {
+        let content = $("#sendContent").val();
+        if (content) {
+            let message = new Object();
+            message.fromName = $("#name").val();
+            message.toName = $("#toName").val();
+            message.sendTime=getDate('y-m-d h:i:s:M',new Date());
+            message.content = content;
+            $("#sendContent").val("");
+            viewMessage(message);
+            webSocket.send(JSON.stringify(message));
+        } else {
+            console.log("输入内容为空")
+        }
+    }
+    function viewMessage(message) {
+        console.log(message)
+        let messageHtml = "<div>" + message.fromName + ": " + message.content + "</div>";
+        $("#messageView").append(messageHtml);
+    }
+    function getDate(formatStr, fdate) {
+        var fTime, fStr = 'ymdhisM';
+        if (!formatStr)
+            formatStr = "y-m-d h:i:s:M";
+        if (fdate)
+            fTime = new Date(fdate);
+        else
+            fTime = new Date();
+        var formatArr = [
+            fTime.getFullYear().toString(),
+            fTime.getMonth().toString(),
+            fTime.getDate().toString(),
+            fTime.getHours().toString(),
+            fTime.getMinutes().toString(),
+            fTime.getSeconds().toString(),
+            fTime.getMilliseconds().toString()
+        ];
+        for (var i = 0; i < formatArr.length; i++) {
+            formatStr = formatStr.replace(fStr.charAt(i), formatArr[i]);
+        }
+        return formatStr;
+    }
+
+</script>
+
+</html>

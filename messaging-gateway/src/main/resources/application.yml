@@ -1,0 +1,50 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-third_route
+          uri: lb://messaging-auth-third
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: core_route
+          uri: lb://messaging-core
+          predicates:
+            - Path=/api/core/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+        - id: admin_route
+          uri: lb://messaging-admin
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
+
+
+#        - id: baidu_route
+#          uri: https://www.baidu.com
+#          predicates:
+#            - Query=url,baidu    # http://localhost:8888/?url=baidu会跳转至https://www.baidu.com
+
+#        - id: product_route
+#          uri: lb://gulimall-product
+#          predicates:
+#            - Path=/api/product/**
+#          filters:
+#            - RewritePath=/api/(?<segment>.*),/$\{segment}
+#
+#        - id: admin_route
+#          uri: lb://renren-fast             # 路由给renren-fast，lb代表负载均衡
+#          predicates:                       # 什么情况下路由给它
+#            - Path=/api/**                  # 默认前端项目都带上api前缀
+#          filters:
+#            - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
+#
+#        - id: gulimall_product_route
+#          uri: lb://gulimall-product
+#          predicates:
+#            - Host=gulimall.com,item.gulimall.com
+
